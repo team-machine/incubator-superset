@@ -2769,6 +2769,13 @@ class PartitionViz(NVD3TimeSeriesViz):
             levels = self.levels_for("agg_sum", [DTTM_ALIAS] + groups, df)
         return self.nest_values(levels)
 
+class HelloWorld(BaseViz):
+    viz_type = "hello_world"
+    pass
+
+class HelloWorld2(BaseViz):
+    viz_type = "hello_world2"
+    pass
 
 viz_types = {
     o.viz_type: o
