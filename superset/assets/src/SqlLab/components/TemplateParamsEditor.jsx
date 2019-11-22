@@ -70,10 +70,9 @@ export default class TemplateParamsEditor extends React.Component {
       isValid = false;
     }
     this.setState({ parsedJSON, isValid, codeText });
-    if (isValid) {
-      this.props.onChange(codeText);
-    } else {
-      this.props.onChange('{}');
+    const newValue = isValid ? codeText : '{}';
+    if (newValue !== this.props.code) {
+      this.props.onChange(newValue);
     }
   }
   renderDoc() {
@@ -122,7 +121,6 @@ export default class TemplateParamsEditor extends React.Component {
         modalTitle={t('Template Parameters')}
         triggerNode={
           <Button
-            className="m-r-5"
             tooltip={t('Edit template parameters')}
           >
             {`${t('parameters')} `}

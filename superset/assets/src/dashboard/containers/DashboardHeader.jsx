@@ -51,7 +51,6 @@ import {
 } from '../../messageToasts/actions';
 
 import { logEvent } from '../../logger/actions';
-
 import { DASHBOARD_HEADER_ID } from '../util/constants';
 
 function mapStateToProps({
@@ -65,7 +64,6 @@ function mapStateToProps({
     undoLength: undoableLayout.past.length,
     redoLength: undoableLayout.future.length,
     layout: undoableLayout.present,
-    filters: dashboardState.filters,
     dashboardTitle: (
       (undoableLayout.present[DASHBOARD_HEADER_ID] || {}).meta || {}
     ).text,

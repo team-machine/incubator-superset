@@ -41,18 +41,17 @@ import TreemapChartPlugin from '@superset-ui/legacy-plugin-chart-treemap';
 import WordCloudChartPlugin from '@superset-ui/legacy-plugin-chart-word-cloud';
 import WorldMapChartPlugin from '@superset-ui/legacy-plugin-chart-world-map';
 import HelloWorldPlugin from 'superset-ui-plugin-chart-dummy';
-import HelloWorldPlugin2 from '@superset-ui/plugin-chart-hello-world';
 
 // There is a known issue with bubble chart that the bubbles will not show up.
 // (<path d="NaN" />)
 // Make sure to import '@superset-ui/legacy-preset-chart-nvd3/lib'
 // Not '@superset-ui/legacy-preset-chart-nvd3',
 // which will point to '@superset-ui/legacy-preset-chart-nvd3/esm' by default
-import { AreaChartPlugin, BarChartPlugin, BoxPlotChartPlugin, BubbleChartPlugin, BulletChartPlugin,
+import { AreaChartPlugin, BarChartPlugin, BubbleChartPlugin, BulletChartPlugin,
   CompareChartPlugin, DistBarChartPlugin, DualLineChartPlugin, LineChartPlugin,
   LineMultiChartPlugin, PieChartPlugin, TimePivotChartPlugin } from '@superset-ui/legacy-preset-chart-nvd3/lib';
-
-import DeckGLChartPreset from './DeckGLChartPreset';
+import { BoxPlotChartPlugin } from '@superset-ui/preset-chart-xy/esm/legacy';
+import { DeckGLChartPreset } from '@superset-ui/legacy-preset-chart-deckgl';
 
 import FilterBoxChartPlugin from '../FilterBox/FilterBoxChartPlugin';
 import TimeTableChartPlugin from '../TimeTable/TimeTableChartPlugin';
@@ -105,7 +104,6 @@ export default class MainPreset extends Preset {
         new WordCloudChartPlugin().configure({ key: 'word_cloud' }),
         new WorldMapChartPlugin().configure({ key: 'world_map' }),
         new HelloWorldPlugin().configure({ key: 'hello_world' }),
-        new HelloWorldPlugin2().configure({ key: 'hello_world2' }),
       ],
     });
   }

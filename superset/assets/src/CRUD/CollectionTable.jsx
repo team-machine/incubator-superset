@@ -23,7 +23,7 @@ import { t } from '@superset-ui/translation';
 import Button from '../components/Button';
 import Fieldset from './Fieldset';
 import { recurseReactClone } from './utils';
-import './styles.css';
+import './crud.less';
 
 const propTypes = {
   collection: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -82,7 +82,7 @@ export default class CRUDCollection extends React.PureComponent {
     this.renderTableBody = this.renderTableBody.bind(this);
     this.changeCollection = this.changeCollection.bind(this);
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.collection !== this.props.collection) {
       this.setState({
         collection: createKeyedCollection(nextProps.collection),

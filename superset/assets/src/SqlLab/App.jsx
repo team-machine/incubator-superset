@@ -22,7 +22,7 @@ import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { hot } from 'react-hot-loader';
 
-import { initFeatureFlags } from 'src/featureFlags';
+import { initFeatureFlags, isFeatureEnabled, FeatureFlag } from 'src/featureFlags';
 import getInitialState from './reducers/getInitialState';
 import rootReducer from './reducers/index';
 import { initEnhancer } from '../reduxUtils';
@@ -32,8 +32,8 @@ import { BYTES_PER_CHAR, KB_STORAGE } from './constants';
 import setupApp from '../setup/setupApp';
 
 import './main.less';
-import '../../stylesheets/reactable-pagination.css';
-import '../components/FilterableTable/FilterableTableStyles.css';
+import '../../stylesheets/reactable-pagination.less';
+import '../components/FilterableTable/FilterableTableStyles.less';
 
 setupApp();
 
@@ -79,7 +79,10 @@ const store = createStore(
   initialState,
   compose(
     applyMiddleware(thunkMiddleware),
-    initEnhancer(true, sqlLabPersistStateConfig),
+    initEnhancer(
+      !isFeatureEnabled(FeatureFlag.SQLLAB_BACKEND_PERSISTENCE),
+      sqlLabPersistStateConfig,
+    ),
   ),
 );
 

@@ -16,13 +16,13 @@
 # under the License.
 # pylint: disable=C,R,W
 """Defines the templating context for SQL Lab"""
-from datetime import datetime, timedelta
 import inspect
 import json
 import random
 import time
-from typing import Any, List, Optional, Tuple
 import uuid
+from datetime import datetime, timedelta
+from typing import Any, List, Optional, Tuple
 
 from dateutil.relativedelta import relativedelta
 from flask import g, request
@@ -39,7 +39,7 @@ BASE_CONTEXT = {
     "timedelta": timedelta,
     "uuid": uuid,
 }
-BASE_CONTEXT.update(config.get("JINJA_CONTEXT_ADDONS", {}))
+BASE_CONTEXT.update(config["JINJA_CONTEXT_ADDONS"])
 
 
 def url_param(param: str, default: Optional[str] = None) -> Optional[Any]:
@@ -55,6 +55,9 @@ def url_param(param: str, default: Optional[str] = None) -> Optional[Any]:
     As you create a visualization form this SQL Lab query, you can pass
     parameters in the explore view as well as from the dashboard, and
     it should carry through to your queries.
+
+    Default values for URL parameters can be defined in chart metdata by
+    adding the key-value pair `url_params: {'foo': 'bar'}`
 
     :param param: the parameter to lookup
     :param default: the value to return in the absence of the parameter

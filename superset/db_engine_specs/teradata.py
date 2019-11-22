@@ -14,7 +14,6 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-# pylint: disable=C,R,W
 from superset.db_engine_specs.base import BaseEngineSpec, LimitMethod
 
 
@@ -37,7 +36,7 @@ class TeradataEngineSpec(BaseEngineSpec):
     }
 
     @classmethod
-    def epoch_to_dttm(cls):
+    def epoch_to_dttm(cls) -> str:
         return (
             "CAST(((CAST(DATE '1970-01-01' + ({col} / 86400) AS TIMESTAMP(0) "
             "AT 0)) AT 0) + (({col} MOD 86400) * INTERVAL '00:00:01' "
