@@ -100,6 +100,7 @@
     "d3-scale": "^2.1.2",
     "dnd-core": "^2.6.0",
     "dompurify": "^2.0.7",
+    "echarts": "^4.5.0",
     "geolib": "^2.0.24",
     "immutable": "^3.8.2",
     "interweave": "^11.2.0",
@@ -148,6 +149,7 @@
     "redux-undo": "^1.0.0-beta9-9-7",
     "regenerator-runtime": "^0.13.3",
     "shortid": "^2.2.6",
+    "superset-ui-plugin-chart-dummy": "file:../../../tm-superset-ui-plugins/packages/superset-ui-plugin-chart-dummy",
     "urijs": "^1.18.10"
   },
   "devDependencies": {
