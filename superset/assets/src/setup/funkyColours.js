@@ -6,14 +6,7 @@ const schemes = [
   {
     id: "fnkColors",
     label: "Funky Colors",
-    colors: [
-      "#ff0000", // rausch
-      "#00ff00", // hackb
-      "#0000ff", // kazan
-      "#ff00ff", // babu
-      "#ffff00", // lima
-      "#00ffff"
-    ]
+    colors: ["#8b94a3", "#dd7500", "#f2bf49", "#d8b511", "#c67f07"]
   }
 ].map(s => new CategoricalScheme(s));
 
