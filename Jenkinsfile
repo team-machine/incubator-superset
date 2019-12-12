@@ -14,14 +14,14 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo "${env.GIT_REPO_HOST_PATH}"
-                git url: "${env.GIT_REPO_HOST_PATH}",
-                        credentialsId: 'tm-machine-account-creds'
+//                 echo "${env.GIT_REPO_HOST_PATH}"
+//                 git url: "${env.GIT_REPO_HOST_PATH}",
+//                         credentialsId: 'tm-machine-account-creds'
 
                 script {
-                    sshagent(['tm-machine-account-creds']) {
-                        sh "git pull origin ${env.GIT_REPO_BRANCH}"
-                    }
+//                     sshagent(['tm-machine-account-creds']) {
+//                         sh "git pull origin ${env.GIT_REPO_BRANCH}"
+//                     }
 
                     majorVer = sh(returnStdout: true, script: "git describe --tags --abbrev=0 | cut -d '.' -f1").trim()
 	                minorVer = sh(returnStdout: true, script: "git describe --tags --abbrev=0 | cut -d '.' -f2").trim()
