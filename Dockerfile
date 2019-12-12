@@ -17,6 +17,11 @@ ENV GUNICORN_BIND=0.0.0.0:8088 \
     SUPERSET_HOME=/var/lib/superset
 ENV GUNICORN_CMD_ARGS="--workers ${GUNICORN_WORKERS} --timeout ${GUNICORN_TIMEOUT} --bind ${GUNICORN_BIND} --limit-request-line ${GUNICORN_LIMIT_REQUEST_LINE} --limit-request-field_size ${GUNICORN_LIMIT_REQUEST_FIELD_SIZE}"
 
+RUN apk add autoconf \
+        bash \
+        boost-dev \
+        cmake \
+        make
 
 ########## BEGIN From contrib/docker image
 WORKDIR /home/superset
