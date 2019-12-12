@@ -1,5 +1,4 @@
-#FROM eu.gcr.io/tm-preview/tm-superset-base:191211.225945
-FROM eu.gcr.io/tm-preview/tm-py-base:v0.4
+FROM eu.gcr.io/tm-preview/tm-superset-base:191211.225945
 
 ARG SUPERSET_VERSION=not_set
 ARG ASSETS_HOME=/usr/local/lib/python3.6/site-packages/superset/static/assets/images
