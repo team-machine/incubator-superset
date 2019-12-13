@@ -1,4 +1,4 @@
-FROM eu.gcr.io/tm-preview/tm-superset-base-image:191211.225945
+FROM eu.gcr.io/tm-preview/tm-superset-base-image:191213.072550  # deps for superset 0.35.1
 
 ARG SUPERSET_VERSION=not_set
 ARG ASSETS_HOME=/usr/local/lib/python3.6/site-packages/superset/static/assets/images
@@ -16,12 +16,6 @@ ENV GUNICORN_BIND=0.0.0.0:8088 \
     SUPERSET_VERSION=${SUPERSET_VERSION} \
     SUPERSET_HOME=/var/lib/superset
 ENV GUNICORN_CMD_ARGS="--workers ${GUNICORN_WORKERS} --timeout ${GUNICORN_TIMEOUT} --bind ${GUNICORN_BIND} --limit-request-line ${GUNICORN_LIMIT_REQUEST_LINE} --limit-request-field_size ${GUNICORN_LIMIT_REQUEST_FIELD_SIZE}"
-
-RUN apk add autoconf \
-        bash \
-        boost-dev \
-        cmake \
-        make
 
 ########## BEGIN From contrib/docker image
 WORKDIR /home/superset
