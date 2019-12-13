@@ -1,4 +1,4 @@
-def VERSION = 'not_set'
+def timestamp = new Date().format('yyMMdd.HHmmss')
 
 pipeline {
     agent any
@@ -7,39 +7,17 @@ pipeline {
         ARTEFACT="incubator-superset"
         CONTAINER_REGISTRY='eu.gcr.io/tm-preview'
         GIT_REPO_HOST_PATH="git@github.com:team-machine/${env.ARTEFACT}.git"
-        GIT_REPO_BRANCH="tm-0.35.1-baseline"
+        SUPERSET_BASE_VERSION="0.35.1"
+        GIT_REPO_BRANCH="tm-${env.SUPERSET_BASE_VERSION}-baseline"
+        IMAGE_VERSION="${env.SUPERSET_BASE_VERSION}-${timestamp}"
         SNYK_TOKEN=credentials('SNYK_TOKEN')
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-//                 echo "${env.GIT_REPO_HOST_PATH}"
-//                 git url: "${env.GIT_REPO_HOST_PATH}",
-//                         credentialsId: 'tm-machine-account-creds'
-
-                script {
-//                     sshagent(['tm-machine-account-creds']) {
-//                         sh "git pull origin ${env.GIT_REPO_BRANCH}"
-//                     }
-
-                    majorVer = sh(returnStdout: true, script: "git describe --tags --abbrev=0 | cut -d '.' -f1").trim()
-	                minorVer = sh(returnStdout: true, script: "git describe --tags --abbrev=0 | cut -d '.' -f2").trim()
-	                minorVer = 1 + minorVer.toInteger()
-                    VERSION = "${majorVer}.${minorVer}"
-                    echo "Building version ${VERSION}"
-                }
-            }
-        }
         stage('Containerise') {
             steps {
-                sh "docker build --build-arg build_version=${VERSION} -t ${env.ARTEFACT}:${VERSION} -t ${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:${VERSION} -t ${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:latest ."
-            }
-        }
-        stage('Unit test') {
-            steps {
-                sh "docker run ${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:${VERSION} \
-                    /bin/sh -c 'pip install -r dev_requirements.txt && python -m pytest tests/'"
+                echo "Building version ${env.IMAGE_VERSION}"
+                sh "docker build --build-arg build_version=${env.IMAGE_VERSION} -t ${env.ARTEFACT}:${env.IMAGE_VERSION} -t ${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:${env.IMAGE_VERSION} -t ${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:latest ."
             }
         }
         stage('Snyk package deps scan') {
@@ -53,7 +31,7 @@ pipeline {
         }
         stage('Snyk container scan') {
             steps {
-                sh "snyk test --docker ${env.ARTEFACT}:${VERSION}"
+                sh "snyk test --docker ${env.ARTEFACT}:${env.IMAGE_VERSION}"
             }
         }
         stage('Tag VCS') {
@@ -62,7 +40,7 @@ pipeline {
                 sh "git config user.email ${GIT_USER_EMAIL}"
 
                 echo 'Tagging and updating version in Git....'
-                sh "git tag ${VERSION} -m 'Version ${VERSION}'"
+                sh "git tag ${env.IMAGE_VERSION} -m 'Version ${env.IMAGE_VERSION}'"
                 script {
                     sshagent(['tm-machine-account-creds']) {
                         sh "git push --follow-tags origin master"
@@ -73,7 +51,7 @@ pipeline {
         stage('Push to Registry') {
             steps {
                 sh "gcloud auth configure-docker"   // get docker to use gcloud creds
-                sh "docker push '${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:${VERSION}'"
+                sh "docker push '${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:${env.IMAGE_VERSION}'"
                 sh "docker push '${env.CONTAINER_REGISTRY}/${env.ARTEFACT}:latest'"
             }
         }
