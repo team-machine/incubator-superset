@@ -25,7 +25,8 @@ COPY requirements.txt .
 COPY requirements-dev.txt .
 COPY contrib/docker/requirements-extra.txt .
 
-RUN pip install --upgrade setuptools pip \
+RUN apk add nodejs npm \
+    && pip install --upgrade setuptools pip \
     && pip install -r requirements.txt -r requirements-dev.txt -r requirements-extra.txt \
     && rm -rf /root/.cache/pip
 
