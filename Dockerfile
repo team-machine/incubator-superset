@@ -2,7 +2,7 @@
 FROM eu.gcr.io/tm-preview/tm-superset-base-image:191213.072550
 
 ARG SUPERSET_VERSION=not_set
-ARG ASSETS_HOME=/usr/local/lib/python3.6/site-packages/superset/static/assets/images
+ARG ASSETS_HOME=/home/superset/assets/images
 
 # Configure environment
 ENV GUNICORN_BIND=0.0.0.0:8088 \
@@ -49,7 +49,7 @@ RUN cd superset/assets && \
 ########## END
 
 # logo
-COPY assets/images/tm_logo_220_54.png $ASSETS_HOME
+COPY team-machine/assets/images/tm_logo_220_54.png $ASSETS_HOME
 
 # Configure Filesystem
 VOLUME /home/superset \
